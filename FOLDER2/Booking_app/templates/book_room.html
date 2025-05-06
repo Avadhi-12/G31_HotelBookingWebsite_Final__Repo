@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .booking-section {
+        
+        padding: 50px 0;
+        border-radius: 10px;
+        color: white;
+    }
+    .booking-form {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: #333;
+        animation: fadeIn 0.4s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .form-label {
+        font-weight: 500;
+    }
+</style>
+
+<div class="container booking-section">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="booking-form">
+                <h2 class="text-center mb-4">Book Room: {{ hotel.name }} - {{ room.room_type }}</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="check_in" class="form-label">Check-In Date</label>
+                        {{ form.check_in }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="check_out" class="form-label">Check-Out Date</label>
+                        {{ form.check_out }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="guests" class="form-label">Number of Guests</label>
+                        {{ form.guests }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="room" class="form-label">Select Room</label>
+                        {{ form.room }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if booking_id %}
+    <script>
+        window.location.href = "{% url 'payment_page' %}";
+    </script>
+{% endif %}
+{% endblock %}

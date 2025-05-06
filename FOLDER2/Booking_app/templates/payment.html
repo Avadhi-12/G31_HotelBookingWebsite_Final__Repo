@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .payment-container {
+        max-width: 600px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .payment-card {
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        border-radius: 12px;
+    }
+
+    .payment-title {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .amount-info {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .form-check-label {
+        margin-left: 8px;
+    }
+
+    .btn-payment {
+        width: 100%;
+        margin-top: 20px;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-payment:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .form-check {
+        margin-bottom: 10px;
+    }
+
+    input.form-control {
+        border-radius: 6px;
+    }
+</style>
+
+<div class="container payment-container">
+    <div class="card payment-card">
+        <h2 class="text-center mb-4 payment-title">Payment Page</h2>
+        
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Select Payment Method -->
+            <div class="mb-4">
+                <label class="form-label">Select Payment Method:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" value="Credit Card" required>
+                    <label class="form-check-label">Credit Card</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" value="UPI">
+                    <label class="form-check-label">UPI</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" value="PayPal">
+                    <label class="form-check-label">PayPal</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" value="Net Banking">
+                    <label class="form-check-label">Net Banking</label>
+                </div>
+            </div>
+
+            <!-- Credit Card Fields -->
+            <div id="credit-card-fields" style="display:none;">
+                <div class="mb-3">
+                    <label for="card_number" class="form-label">Card Number</label>
+                    <input type="text" class="form-control" id="card_number" name="card_number" placeholder="Enter your card number">
+                </div>
+                <div class="mb-3">
+                    <label for="expiry_date" class="form-label">Expiry Date</label>
+                    <input type="text" class="form-control" id="expiry_date" name="expiry_date" placeholder="MM/YY">
+                </div>
+                <div class="mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="cvv" name="cvv" placeholder="Enter CVV">
+                </div>
+            </div>
+
+            <!-- UPI Fields -->
+            <div id="upi-fields" style="display:none;">
+                <div class="mb-3">
+                    <label for="upi_id" class="form-label">UPI ID</label>
+                    <input type="text" class="form-control" id="upi_id" name="upi_id" placeholder="e.g. name@upi">
+                </div>
+            </div>
+
+            <!-- PayPal Fields -->
+            <div id="paypal-fields" style="display:none;">
+                <div class="mb-3">
+                    <label for="paypal_email" class="form-label">PayPal Email</label>
+                    <input type="email" class="form-control" id="paypal_email" name="paypal_email" placeholder="Enter your PayPal email">
+                </div>
+            </div>
+
+            <!-- Net Banking Fields -->
+            <div id="net-banking-fields" style="display:none;">
+                <div class="mb-3">
+                    <label for="bank_name" class="form-label">Bank Name</label>
+                    <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter your bank name">
+                </div>
+                <div class="mb-3">
+                    <label for="account_number" class="form-label">Account Number</label>
+                    <input type="text" class="form-control" id="account_number" name="account_number" placeholder="Enter your account number">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-payment">Make Payment</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const radioButtons = document.querySelectorAll('input[name="payment_method"]');
+    const creditCardFields = document.getElementById('credit-card-fields');
+    const upiFields = document.getElementById('upi-fields');
+    const paypalFields = document.getElementById('paypal-fields');
+    const netBankingFields = document.getElementById('net-banking-fields');
+
+    function hideAllFields() {
+        creditCardFields.style.display = 'none';
+        upiFields.style.display = 'none';
+        paypalFields.style.display = 'none';
+        netBankingFields.style.display = 'none';
+    }
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function () {
+            hideAllFields();
+            if (this.value === 'Credit Card') {
+                creditCardFields.style.display = 'block';
+            } else if (this.value === 'UPI') {
+                upiFields.style.display = 'block';
+            } else if (this.value === 'PayPal') {
+                paypalFields.style.display = 'block';
+            } else if (this.value === 'Net Banking') {
+                netBankingFields.style.display = 'block';
+            }
+        });
+    });
+</script>
+{% endblock %}

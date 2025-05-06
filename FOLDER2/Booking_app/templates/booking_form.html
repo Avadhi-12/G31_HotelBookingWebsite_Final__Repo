@@ -1,0 +1,11 @@
+<!-- templates/booking_app/booking_form.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2>Book a Room</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <a href="{% url 'book_room' hotel.id room.id %}" class="btn btn-primary">Book Now</a>
+
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!-- admin_cancellation_requests.html -->
+{% if pending_cancellations %}
+    <h3>Pending Cancellation Requests</h3>
+    <ul>
+        {% for booking in pending_cancellations %}
+            <li>
+                Booking ID: {{ booking.id }} - User: {{ booking.user.username }} - Status: {{ booking.cancellation_status }}
+                <form method="post" action="{% url 'approve_cancellation' booking.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Approve</button>
+                </form>
+                <form method="post" action="{% url 'decline_cancellation' booking.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Decline</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No pending cancellation requests.</p>
+{% endif %}

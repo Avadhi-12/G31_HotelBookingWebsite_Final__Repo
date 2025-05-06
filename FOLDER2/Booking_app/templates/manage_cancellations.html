@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Manage Cancellation Requests</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Hotel</th>
+            <th>Room</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in cancellation_requests %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.hotel.name }}</td>
+                <td>{{ booking.room.name }}</td>
+                <td>{{ booking.cancellation_status }}</td>
+                <td>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                        <button type="submit" name="action" value="approve">Approve</button>
+                        <button type="submit" name="action" value="reject">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
