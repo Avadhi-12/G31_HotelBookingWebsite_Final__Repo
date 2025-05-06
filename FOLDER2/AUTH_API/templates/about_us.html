@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .hero {
+        background: url('https://images.unsplash.com/photo-1501117716987-c8f11c61b7df') no-repeat center center/cover;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+    .section {
+        padding: 60px 0;
+    }
+    .mission, .testimonials {
+        background-color: #f8f9fa;
+    }
+    .img-rounded {
+        border-radius: 10px;
+    }
+    .feature-icon {
+        font-size: 40px;
+        color: #0d6efd;
+    }
+    .team-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="text-center">
+        <h1 class="display-4">{{ data.title }}</h1>
+    </div>
+</div>
+
+<!-- About Description -->
+<div class="container section">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h2>About BlueWave Hotels</h2>
+            <p class="lead">{{ data.description }}</p>
+        </div>
+        <div class="col-md-6">
+            <img src="https://images.unsplash.com/photo-1576675784094-d6b69e31f6de" class="img-fluid img-rounded" alt="Hotel Image">
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Us -->
+<div class="container section text-center">
+    <h2>Why Choose Us</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="feature-icon mb-3">
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <h5>Luxury & Comfort</h5>
+            <p>Experience unmatched luxury and relaxation in our elegantly designed rooms.</p>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-icon mb-3">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            <h5>Trusted by Thousands</h5>
+            <p>Join thousands of happy guests who trust BlueWave for every stay.</p>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-icon mb-3">
+                <i class="bi bi-people"></i>
+            </div>
+            <h5>Exceptional Service</h5>
+            <p>Our staff is dedicated to providing friendly, responsive, and professional service.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Mission/Vision -->
+<div class="container section mission text-center">
+    <h2>Our Mission</h2>
+    <p class="lead">To deliver world-class hospitality with warmth, elegance, and personalized service that exceeds expectations.</p>
+    <h2 class="mt-5">Our Vision</h2>
+    <p class="lead">To be the most admired hotel brand globally for leisure and business travelers alike.</p>
+</div>
+
+<!-- Testimonials -->
+<div class="container section testimonials">
+    <h2 class="text-center mb-5">What Our Guests Say</h2>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <blockquote class="blockquote">
+                <p>"The stay was beyond amazing. Clean rooms and courteous staff!"</p>
+                <footer class="blockquote-footer">Sarah M.</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote class="blockquote">
+                <p>"BlueWave is now our go-to hotel for vacations."</p>
+                <footer class="blockquote-footer">Arun T.</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote class="blockquote">
+                <p>"Great location, great food, and exceptional service."</p>
+                <footer class="blockquote-footer">Lisa K.</footer>
+            </blockquote>
+        </div>
+    </div>
+</div>
+
+<!-- Meet Our Team -->
+<div class="container section text-center">
+    <h2>Meet Our Team</h2>
+    <div class="row mt-4">
+        {% for member in team_data %}
+        <div class="col-md-3">
+            <img src="{{ member.image }}" class="team-img mb-3" alt="{{ member.role }}">
+            <h5>{{ member.name }}</h5>
+            <p>{{ member.role }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
