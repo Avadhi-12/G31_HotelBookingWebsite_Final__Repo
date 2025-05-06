@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Rooms for {{ hotel.name }}</h2>
+    <a href="{% url 'add_room' hotel.id %}" class="btn btn-primary mb-3">Add New Room</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Room Type</th>
+                <th>Price</th>
+                <th>Capacity</th>
+                <th>Availability</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>{{ room.room_number }}</td>
+                <td>{{ room.room_type }}</td>
+                <td>${{ room.price }}</td>
+                <td>{{ room.capacity }}</td>
+                <td>{{ room.available|yesno:"Yes,No" }}</td>
+                <td>
+                    <a href="{% url 'update_room' room.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'delete_room' room.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No rooms added yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

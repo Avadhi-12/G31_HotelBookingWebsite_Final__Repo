@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Explore Hotels</h2>
+
+  <div class="row">
+    <!-- Filters Sidebar -->
+    <div class="col-md-3 mb-4">
+      <div class="card p-3 shadow-sm">
+        <h5 class="mb-3">Filters</h5>
+        <form method="get">
+          <!-- Location -->
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" class="form-control" placeholder="Enter city" value="{{ request.GET.location }}">
+          </div>
+
+          <!-- Price Range -->
+          <div class="mb-3">
+            <label for="priceRange" class="form-label">Max Price (₹)</label>
+            <input type="range" class="form-range" min="1000" max="20000" step="500" name="max_price" id="priceRange" value="{{ request.GET.max_price|default:10000 }}">
+            <span id="priceValue">₹{{ request.GET.max_price|default:10000 }}</span>
+          </div>
+
+          <!-- Rating -->
+          <div class="mb-3">
+            <label class="form-label">Rating</label>
+            <select name="rating" class="form-select">
+              <option value="">All</option>
+              <option value="3">3★ & Up</option>
+              <option value="4">4★ & Up</option>
+              <option value="5">5★</option>
+            </select>
+          </div>
+
+          <!-- Room Type -->
+          <div class="mb-3">
+            <label class="form-label">Room Type</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="room_type" value="Single" id="roomSingle">
+              <label class="form-check-label" for="roomSingle">Single</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="room_type" value="Double" id="roomDouble">
+              <label class="form-check-label" for="roomDouble">Double</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="room_type" value="Suite" id="roomSuite">
+              <label class="form-check-label" for="roomSuite">Suite</label>
+            </div>
+          </div>
+
+          <!-- Amenities -->
+          <div class="mb-3">
+            <label class="form-label">Amenities</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="wifi" id="wifi">
+              <label class="form-check-label" for="wifi">Free WiFi</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="pool" id="pool">
+              <label class="form-check-label" for="pool">Swimming Pool</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="parking" id="parking">
+              <label class="form-check-label" for="parking">Free Parking</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Hotels List -->
+    <div class="col-md-9">
+      <div class="row">
+        {% for hotel in hotels %}
+        <div class="col-md-4 mb-4">
+          <div class="card shadow-sm h-100">
+            {% if hotel.image %}
+            <img src="{{ hotel.image.url }}" class="card-img-top" alt="{{ hotel.name }}">
+            {% else %}
+            <img src="{% static 'default-hotel.jpg' %}" class="card-img-top" alt="Default Image">
+            {% endif %}
+
+            <div class="card-body">
+              <h5 class="card-title">{{ hotel.name }}</h5>
+              <p class="card-text text-muted">{{ hotel.location }}</p>
+              <p><strong>₹{{ hotel.price_per_night }}</strong> / night</p>
+              <p>⭐ {{ hotel.rating }}</p>
+              <p><strong>Room Type:</strong> {{ hotel.room_type }}</p>
+              <p><strong>Amenities:</strong> {{ hotel.amenities }}</p>
+
+              <!-- Number of Available Rooms -->
+
+<div class="mt-3">
+  <h6>Available Rooms:</h6>
+  <p>{{ hotel.available_rooms.count }} Rooms Available</p>
+</div>
+
+
+              <a href="{% url 'hotel_detail' hotel.id %}" class="btn btn-outline-primary w-100 mt-2">View Details</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No hotels found.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS to update price label -->
+<script>
+  const priceRange = document.getElementById('priceRange');
+  const priceValue = document.getElementById('priceValue');
+  priceRange.addEventListener('input', function () {
+    priceValue.textContent = `₹${priceRange.value}`;
+  });
+</script>
+{% endblock %}

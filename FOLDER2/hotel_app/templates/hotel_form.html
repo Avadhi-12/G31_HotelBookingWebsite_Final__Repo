@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ title }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Hotel Name</label>
+            {{ form.name }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
+            {{ form.location }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.price_per_night.id_for_label }}" class="form-label">Price per Night</label>
+            {{ form.price_per_night }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.rating.id_for_label }}" class="form-label">Rating</label>
+            {{ form.rating }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.available_rooms.id_for_label }}" class="form-label">Available Rooms</label>
+            {{ form.available_rooms }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label">Image</label>
+            {{ form.image }}
+        </div>
+
+        <!-- New Fields -->
+        <div class="mb-3">
+            <label for="{{ form.room_type.id_for_label }}" class="form-label">Room Type</label>
+            {{ form.room_type }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.property_type.id_for_label }}" class="form-label">Property Type</label>
+            {{ form.property_type }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.amenities.id_for_label }}" class="form-label">Amenities (comma separated)</label>
+            {{ form.amenities }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
